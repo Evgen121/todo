@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3010:4444"
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+
+    restart: always
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3015:5173"

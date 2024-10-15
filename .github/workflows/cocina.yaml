@@ -1,0 +1,25 @@
+name: Todo CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Save backend environment file
+        run: echo "${{ vars.API_ENV }}" > backend/.env
+
+      - name: Docker Compose down
+        run: docker compose down
+
+      - name: Remove all <none> images and dangling images
+        run: docker image prune -f
+
+      - name: Docker Compose up
+        run: docker compose up -d --build
